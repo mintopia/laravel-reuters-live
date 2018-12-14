@@ -1,0 +1,28 @@
+{
+    "name": "mintopia/laravel-reuters-live",
+    "description": "Fetches Reuters Live Streams along with a Laravel Service Provider",
+    "type": "library",
+    "require": {
+        "guzzlehttp/guzzle": "^6.3",
+        "illuminate/support": "^5.7"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jessica Smith",
+            "email": "jess@mintopia.net"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Mintopia\\ReutersLive\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mintopia\\ReutersLive\\ReutersLiveServiceProvider"
+            ]
+        }
+    }
+}
