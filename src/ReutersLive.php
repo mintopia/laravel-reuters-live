@@ -12,11 +12,27 @@ class ReutersLive
         $this->uri = $uri;
     }
 
-    public function getStreams()
+    public function getStreams($filter = null)
     {
         $html = $this->getHtml();
         $json = $this->getJson($html);
-        return $this->parseJson($json);
+        $streams = $this->parseJson($json);
+        if (!$filter) {
+            return $streams;
+        }
+        return array_filter($streams, function($stream) use ($filter) {
+            return $stream->status == $filter;
+        });
+    }
+
+    public function getLiveStreams()
+    {
+        return $this->getStreams(Stream::STATUS_LIVE);
+    }
+
+    public function getUpcomingStreams()
+    {
+        return $this->getStreams(Stream::STATUS_UPCOMING);
     }
 
     protected function getHtml()
@@ -53,7 +69,7 @@ class ReutersLive
     {
         $streams = [];
         foreach ($json->items as $item) {
-            if ($item->type != 'LIVE_NOW') {
+            if ($item->type != Stream::STATUS_LIVE && $item->type != Stream::STATUS_UPCOMING) {
                 continue;
             }
             $stream = null;
@@ -66,8 +82,9 @@ class ReutersLive
                     $stream = $resource->uri;
                 }
             }
-            if (!$stream || !$uri) {
-                continue;
+
+            if (!$stream) {
+                $stream = 'https://churro.prod.reuters.tv/rest/v2/live/playlist/story/' . $item->id;
             }
 
             $streams[] = Stream::createFromData($item, $stream, $uri);;

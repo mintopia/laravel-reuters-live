@@ -4,7 +4,8 @@
     "type": "library",
     "require": {
         "guzzlehttp/guzzle": "^6.3",
-        "illuminate/support": "^5.7"
+        "illuminate/support": "^5.7",
+        "nesbot/carbon": "^1.36"
     },
     "license": "MIT",
     "authors": [
