@@ -25,7 +25,9 @@ class Stream
         $obj->id = $data->id;
         $obj->title = $data->title;
         $obj->guid = $data->guid;
-        $obj->description = $data->description;
+        if (property_exists($data, 'description')) {
+          $obj->description = $data->description;
+        }
         $obj->location = $data->location;
         $obj->stream = $stream;
         $obj->uri = $uri;
